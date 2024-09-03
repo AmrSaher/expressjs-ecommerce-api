@@ -1,0 +1,52 @@
+# Node.js related
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Logs
+logs/
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+
+# Compiled output
+dist/
+build/
+
+# Dependency directories
+bower_components/
+jspm_packages/
+
+# TypeScript
+*.tsbuildinfo
+*.tscache
+*.ts
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Serverless directories
+.serverless/
+
+# Parcel cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# VS Code directories
+.vscode/
+.vscode-test/
+
+# JetBrains IDE directories
+.idea/
