@@ -2,6 +2,7 @@ import { validationResult, matchedData } from "express-validator";
 import { hashPassword, comparePassword } from "../Helpers/Bcrypt.mjs";
 import { generateJWTToken } from "../Helpers/JWT.mjs";
 import { User } from "../Models/User.mjs";
+import { Profile } from "../Models/Profile.mjs";
 
 export const register = async (req, res) => {
     const validationErrors = validationResult(req);
@@ -29,12 +30,18 @@ export const register = async (req, res) => {
         email: data.email,
         password: data.password,
     });
+    const newProfile = new Profile({
+        user: newUser._id,
+    });
+    newUser.profile = newProfile._id;
 
     try {
         const savedUser = await newUser.save();
         const token = generateJWTToken(savedUser);
+        await newProfile.save();
         res.status(201).send({ token });
     } catch (err) {
+        console.log(err);
         res.status(409).send({
             msg: "Name or email already exists. Please choose a different one.",
         });
