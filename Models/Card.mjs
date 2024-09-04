@@ -1,30 +1,26 @@
 import mongoose from "mongoose";
 
-const ProfileSchema = new mongoose.Schema(
+const CardSchema = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
-            unique: true,
         },
-        firstName: {
+        cardName: {
             type: mongoose.Schema.Types.String,
+            required: true,
         },
-        lastName: {
+        cardNumber: {
             type: mongoose.Schema.Types.String,
+            required: true,
         },
-        firstName: {
+        expiryDate: {
             type: mongoose.Schema.Types.String,
-        },
-        birthDate: {
-            type: mongoose.Schema.Types.Date,
-        },
-        image: {
-            type: mongoose.Schema.Types.String,
+            required: true,
         },
     },
     { timestamps: true }
 );
 
-export const Profile = mongoose.model("Profile", ProfileSchema);
+export const Card = mongoose.model("Card", CardSchema);

@@ -1,9 +1,9 @@
 import { Router } from "express";
 import * as AuthController from "../Controllers/AuthController.mjs";
-import { check, checkSchema } from "express-validator";
+import { checkSchema } from "express-validator";
 import RegisterValidationSchema from "../Validation/RegisterValidationSchema.mjs";
 import LoginValidationSchema from "../Validation/LoginValidationSchema.mjs";
-import UserIDValidationSchema from "../Validation/UserIDValidationSchema.mjs";
+import IDValidationSchema from "../Validation/IDValidationSchema.mjs";
 import GuestMiddleware from "../Middlewares/GuestMiddleware.mjs";
 import passport from "passport";
 import AdminMiddleware from "../Middlewares/AdminMiddleware.mjs";
@@ -34,7 +34,7 @@ router.patch(
     "/:id/admin",
     passport.authenticate("jwt", { session: false }),
     AdminMiddleware,
-    checkSchema(UserIDValidationSchema),
+    checkSchema(IDValidationSchema),
     AuthController.makeUserAdmin
 );
 
