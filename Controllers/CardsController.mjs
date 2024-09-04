@@ -35,7 +35,10 @@ export const updateCard = async (req, res) => {
 
     try {
         card = await Card.findById(data.id);
-        if (card.user.toString() != req.user._id.toString())
+        if (
+            card.user.toString() != req.user._id.toString() &&
+            !req.user.isAdmin
+        )
             throw new Error("This card is not for this user.");
     } catch (err) {
         return res.status(404).send({ msg: "Card not found." });
@@ -63,7 +66,10 @@ export const deleteCard = async (req, res) => {
 
     try {
         card = await Card.findById(data.id);
-        if (card.user.toString() != req.user._id.toString())
+        if (
+            card.user.toString() != req.user._id.toString() &&
+            !req.user.isAdmin
+        )
             throw new Error("This card is not for this user.");
     } catch (err) {
         return res.status(404).send({ msg: "Card not found." });

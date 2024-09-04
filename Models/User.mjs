@@ -32,6 +32,12 @@ const UserSchema = new mongoose.Schema(
                 ref: "Card",
             },
         ],
+        addresses: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Address",
+            },
+        ],
     },
     { timestamps: true }
 );
