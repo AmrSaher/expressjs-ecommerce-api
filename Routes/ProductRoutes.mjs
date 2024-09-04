@@ -5,11 +5,21 @@ import AdminMiddleware from "../Middlewares/AdminMiddleware.mjs";
 import { checkSchema } from "express-validator";
 import CreateProductValidationSchema from "../Validation/CreateProductValidationSchema.mjs";
 import IDValidationSchema from "../Validation/IDValidationSchema.mjs";
+import FilterProductsValidationSchema from "../Validation/FilterProductsValidationSchema.mjs";
 
 const router = Router();
 
 // Endpoints
-router.get("/", ProductsController.getProducts);
+router.get(
+    "/",
+    checkSchema(FilterProductsValidationSchema),
+    ProductsController.getProducts
+);
+router.get(
+    "/:id",
+    checkSchema(IDValidationSchema),
+    ProductsController.getProduct
+);
 router.post(
     "/",
     passport.authenticate("jwt", { session: false }),
