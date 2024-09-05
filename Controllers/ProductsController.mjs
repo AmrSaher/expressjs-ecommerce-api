@@ -19,13 +19,14 @@ export const getProducts = async (req, res) => {
     const categories = data.categories
         ?.split(",")
         .map((category) => category.trim());
-    if (categories) filter.categories = { $all: categories };
+    if (categories) filter["categories"] = { $in: categories };
 
     const rating = data.rating?.split(",").map((rating) => parseInt(rating));
 
     try {
         const products = (await Product.find(filter).sort(sort)).filter(
             (product) => {
+                if (!rating) return true;
                 let totalRating = 0;
                 for (const rating of product.ratings) {
                     totalRating += rating.rating;
