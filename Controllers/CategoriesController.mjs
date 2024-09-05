@@ -1,6 +1,11 @@
 import { matchedData, validationResult } from "express-validator";
 import { Category } from "../Models/Category.mjs";
 
+export const getCategories = async (req, res) => {
+    const categories = await Category.find();
+    res.status(200).send(categories);
+};
+
 export const createCategory = async (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty())
@@ -14,5 +19,38 @@ export const createCategory = async (req, res) => {
         res.status(200).send(savedCategory);
     } catch (err) {
         res.sendStatus(err);
+    }
+};
+
+export const deleteCategory = async (req, res) => {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty())
+        return res.status(400).send(validationErrors);
+
+    const data = matchedData(req);
+
+    try {
+        await Category.findByIdAndDelete(data.id);
+        res.status(200).send({ msg: "Category deleted successfully." });
+    } catch (err) {
+        res.sendStatus(400);
+    }
+};
+
+export const updateCategory = async (req, res) => {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty())
+        return res.status(400).send(validationErrors);
+
+    const data = matchedData(req);
+
+    try {
+        await Category.findByIdAndUpdate(data.id, {
+            ...data,
+            id: undefined,
+        });
+        res.status(200).send({ msg: "Category updated successfully." });
+    } catch (err) {
+        res.sendStatus(400);
     }
 };
