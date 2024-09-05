@@ -10,6 +10,7 @@ export const CreateApp = () => {
     const app = express();
 
     // Middlewares
+    app.use("/uploads", express.static("uploads"));
     app.use(express.json());
     app.use(cookieParser(process.env.SECRET || "secret"));
     app.use(

@@ -17,5 +17,9 @@ export default {
             errorMessage: "Must be a string.",
         },
     },
-    // image: {},
+    // image: {
+    //     notEmpty: {
+    //         errorMessage: "Must be not empty.",
+    //     },
+    // },
 };
