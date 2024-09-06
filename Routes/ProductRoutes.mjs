@@ -6,7 +6,7 @@ import { checkSchema } from "express-validator";
 import CreateProductValidationSchema from "../Validation/CreateProductValidationSchema.mjs";
 import IDValidationSchema from "../Validation/IDValidationSchema.mjs";
 import FilterProductsValidationSchema from "../Validation/FilterProductsValidationSchema.mjs";
-import upload from "../Middlewares/UploadMiddleware.mjs";
+import RateProductValidationSchema from "../Validation/RateProductValidationSchema.mjs";
 
 const router = Router();
 
@@ -42,6 +42,13 @@ router.put(
     checkSchema(IDValidationSchema),
     checkSchema(CreateProductValidationSchema),
     ProductsController.updateProduct
+);
+router.post(
+    "/rate/:id",
+    passport.authenticate("jwt", { session: false }),
+    checkSchema(IDValidationSchema),
+    checkSchema(RateProductValidationSchema),
+    ProductsController.rateProduct
 );
 
 export default router;

@@ -61,14 +61,14 @@ export const getProduct = async (req, res) => {
     }
 };
 
-export const createProduct = (req, res) => {
-    // const validationErrors = validationResult(req);
-    // if (!validationErrors.isEmpty())
-    //     return res.status(400).json(validationErrors);
+// const validationErrors = validationResult(req);
+// if (!validationErrors.isEmpty())
+//     return res.status(400).json(validationErrors);
 
-    // const data = matchedData(req);
-    // const newProduct = new Product(data);
+// const data = matchedData(req);
+// const newProduct = new Product(data);
 
+export const createProduct = (req, res) =>
     upload.array("images", 5)(req, res, async (err) => {
         if (req.files.length < 1) {
             return res
@@ -88,13 +88,14 @@ export const createProduct = (req, res) => {
         }
 
         const {
-            body: { name, description, stock, brand, price },
+            body: { name, description, stock, brand, price, categories },
         } = req;
         const data = {
             name,
             description,
             stock,
             brand: brand || undefined,
+            categories: categories || undefined,
             price,
             images: req.files.map((file) => file.filename),
         };
@@ -107,7 +108,6 @@ export const createProduct = (req, res) => {
             res.sendStatus(400);
         }
     });
-};
 
 export const deleteProduct = async (req, res) => {
     const validationErrors = validationResult(req);
@@ -137,6 +137,29 @@ export const updateProduct = async (req, res) => {
             id: undefined,
         });
         res.status(200).json({ msg: "Product updated successfully." });
+    } catch (err) {
+        res.sendStatus(400);
+    }
+};
+
+export const rateProduct = async (req, res) => {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty())
+        return res.status(400).json(validationErrors);
+
+    const data = matchedData(req);
+    const rating = {
+        user: req.user._id,
+        rating: data.rating,
+        review: data.review || undefined,
+    };
+
+    try {
+        const product = await Product.findById(data.id);
+        product.ratings.push(rating);
+        await product.save();
+
+        res.status(200).json(rating);
     } catch (err) {
         res.sendStatus(400);
     }

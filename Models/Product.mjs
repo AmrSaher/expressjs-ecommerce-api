@@ -19,10 +19,12 @@ const ProductSchema = new mongoose.Schema(
             required: true,
             min: 0,
         },
-        categories: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Category",
-        }],
+        categories: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Category",
+            },
+        ],
         brand: {
             type: mongoose.Schema.Types.String,
             trim: true,
@@ -33,10 +35,12 @@ const ProductSchema = new mongoose.Schema(
             min: 0,
             default: 0,
         },
-        images: {
-            type: [mongoose.Schema.Types.String],
-            validate: [arrayLimit, "{PATH} exceeds the limit of 5"],
-        },
+        images: [
+            {
+                type: mongoose.Schema.Types.String,
+                validate: [arrayLimit, "{PATH} exceeds the limit of 5"],
+            },
+        ],
         ratings: [
             {
                 user: {

@@ -27,6 +27,7 @@ export default {
         isString: {
             errorMessage: "Must be a string.",
         },
+        optional: true,
     },
     stock: {
         isNumber: {
@@ -36,12 +37,10 @@ export default {
             errorMessage: "Must be not empty.",
         },
     },
-    // images: {
-    //     isArray: {
-    //         errorMessage: "Must be an array of images.",
-    //     },
-    //     notEmpty: {
-    //         errorMessage: "Must be not empty.",
-    //     },
-    // },
+    categories: {
+        isArray: {
+            errorMessage: "Must be an array of categories.",
+        },
+        optional: true,
+    },
 };
