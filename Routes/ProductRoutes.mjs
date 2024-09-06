@@ -6,6 +6,7 @@ import { checkSchema } from "express-validator";
 import CreateProductValidationSchema from "../Validation/CreateProductValidationSchema.mjs";
 import IDValidationSchema from "../Validation/IDValidationSchema.mjs";
 import FilterProductsValidationSchema from "../Validation/FilterProductsValidationSchema.mjs";
+import upload from "../Middlewares/UploadMiddleware.mjs";
 
 const router = Router();
 

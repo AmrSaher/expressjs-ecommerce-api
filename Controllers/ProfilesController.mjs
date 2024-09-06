@@ -4,7 +4,7 @@ import { Profile } from "../Models/Profile.mjs";
 export const updateProfile = async (req, res) => {
     // const validationErrors = validationResult(req);
     // if (!validationErrors.isEmpty())
-    //     return res.status(400).send(validationErrors);
+    //     return res.status(400).json(validationErrors);
 
     const {
         body: { firstName, lastName, phoneNumber, birthDate },
@@ -19,7 +19,7 @@ export const updateProfile = async (req, res) => {
 
     try {
         await Profile.findByIdAndUpdate(req.user.profile, data);
-        res.status(200).send({ msg: "Your profile updated successfully." });
+        res.status(200).json({ msg: "Your profile updated successfully." });
     } catch (err) {
         res.sendStatus(400);
     }
@@ -27,5 +27,5 @@ export const updateProfile = async (req, res) => {
 
 export const getProfile = async (req, res) => {
     const profile = await Profile.findById(req.user.profile);
-    res.status(200).send(profile);
+    res.status(200).json(profile);
 };

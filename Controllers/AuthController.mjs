@@ -7,12 +7,12 @@ import { Profile } from "../Models/Profile.mjs";
 export const register = async (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty())
-        return res.status(400).send(validationErrors);
+        return res.status(400).json(validationErrors);
 
     const data = matchedData(req);
 
     if (data.password !== data.password_confirmation)
-        return res.status(400).send({
+        return res.status(400).json({
             errors: [
                 {
                     type: "field",
@@ -39,10 +39,10 @@ export const register = async (req, res) => {
         const savedUser = await newUser.save();
         const token = generateJWTToken(savedUser);
         await newProfile.save();
-        res.status(201).send({ token });
+        res.status(201).json({ token });
     } catch (err) {
         console.log(err);
-        res.status(409).send({
+        res.status(409).json({
             msg: "Name or email already exists. Please choose a different one.",
         });
     }
@@ -51,26 +51,26 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty())
-        return res.status(400).send(validationErrors);
+        return res.status(400).json(validationErrors);
 
     const data = matchedData(req);
     const user = await User.findOne({ email: data.email });
 
     if (!user || !comparePassword(data.password, user.password))
-        return res.status(400).send({ msg: "Invalid Credentials." });
+        return res.status(400).json({ msg: "Invalid Credentials." });
 
     const token = generateJWTToken(user);
-    res.status(200).send({ token });
+    res.status(200).json({ token });
 };
 
 export const getUser = async (req, res) => {
-    res.status(200).send(req.user);
+    res.status(200).json(req.user);
 };
 
 export const makeUserAdmin = async (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty())
-        return res.status(400).send(validationErrors);
+        return res.status(400).json(validationErrors);
 
     const data = matchedData(req);
     let user;
@@ -78,14 +78,14 @@ export const makeUserAdmin = async (req, res) => {
     try {
         user = await User.findById(data.id);
     } catch (err) {
-        return res.status(404).send({ msg: "User not found." });
+        return res.status(404).json({ msg: "User not found." });
     }
 
     user.isAdmin = true;
 
     try {
         const savedUser = await user.save();
-        res.status(200).send(savedUser);
+        res.status(200).json(savedUser);
     } catch (err) {
         res.sendStatus(400);
     }
