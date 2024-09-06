@@ -1,15 +1,18 @@
 export default {
     firstName: {
+        in: ["body"],
         isString: {
             errorMessage: "Must be a string.",
         },
     },
     lastName: {
+        in: ["body"],
         isString: {
             errorMessage: "Must be a string.",
         },
     },
     birthDate: {
+        in: ["body"],
         // isDate: {
         //     errorMessage: "Must be a date.",
         // },

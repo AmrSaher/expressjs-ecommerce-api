@@ -14,11 +14,11 @@ const ProfileSchema = new mongoose.Schema(
         lastName: {
             type: mongoose.Schema.Types.String,
         },
-        firstName: {
-            type: mongoose.Schema.Types.String,
-        },
         birthDate: {
             type: mongoose.Schema.Types.Date,
+        },
+        phoneNumber: {
+            type: mongoose.Schema.Types.String,
         },
         image: {
             type: mongoose.Schema.Types.String,

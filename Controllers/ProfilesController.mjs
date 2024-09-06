@@ -2,20 +2,24 @@ import { matchedData, validationResult } from "express-validator";
 import { Profile } from "../Models/Profile.mjs";
 
 export const updateProfile = async (req, res) => {
-    const validationErrors = validationResult(req);
-    if (!validationErrors.isEmpty())
-        return res.status(400).send(validationErrors);
+    // const validationErrors = validationResult(req);
+    // if (!validationErrors.isEmpty())
+    //     return res.status(400).send(validationErrors);
 
-    const data = matchedData(req);
-    const profile = await Profile.findById(req.user.profile);
-
-    profile.firstName = data.firstName;
-    profile.lastName = data.lastName;
-    profile.birthDate = data.birthDate;
+    const {
+        body: { firstName, lastName, phoneNumber, birthDate },
+    } = req;
+    const data = {
+        firstName: firstName || undefined,
+        lastName: lastName || undefined,
+        phoneNumber: phoneNumber || undefined,
+        birthDate: birthDate || undefined,
+        image: req.file ? req.file.filename : undefined,
+    };
 
     try {
-        const savedProfile = await profile.save();
-        res.status(200).send(savedProfile);
+        await Profile.findByIdAndUpdate(req.user.profile, data);
+        res.status(200).send({ msg: "Your profile updated successfully." });
     } catch (err) {
         res.sendStatus(400);
     }

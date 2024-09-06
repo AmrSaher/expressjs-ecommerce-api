@@ -3,6 +3,7 @@ import { checkSchema } from "express-validator";
 import passport from "passport";
 import UpdateProfileValidationSchema from "../Validation/UpdateProfileValidationSchema.mjs";
 import * as ProfilesController from "../Controllers/ProfilesController.mjs";
+import upload from "../Middlewares/UploadMiddleware.mjs";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.get("/", ProfilesController.getProfile);
 router.put(
     "/",
     checkSchema(UpdateProfileValidationSchema),
+    upload.single("image"),
     ProfilesController.updateProfile
 );
 
