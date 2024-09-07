@@ -35,12 +35,10 @@ const ProductSchema = new mongoose.Schema(
             min: 0,
             default: 0,
         },
-        images: [
-            {
-                type: mongoose.Schema.Types.String,
-                validate: [arrayLimit, "{PATH} exceeds the limit of 5"],
-            },
-        ],
+        images: {
+            type: [mongoose.Schema.Types.String],
+            validate: [arrayLimit, "{PATH} exceeds the limit of 5"],
+        },
         ratings: [
             {
                 user: {

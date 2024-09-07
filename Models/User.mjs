@@ -38,6 +38,11 @@ const UserSchema = new mongoose.Schema(
                 ref: "Address",
             },
         ],
+        cart: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            unique: true,
+        },
     },
     { timestamps: true }
 );

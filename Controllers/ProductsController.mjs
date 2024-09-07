@@ -82,9 +82,9 @@ export const createProduct = (req, res) =>
                     .status(400)
                     .json({ msg: "Maximum 5 files allowed." });
             }
-            return res.status(400).json({ message: err.message });
+            return res.status(400).json({ msg: err.message });
         } else if (err) {
-            return res.status(500).json({ message: "File upload failed." });
+            return res.status(500).json({ msg: "File upload failed." });
         }
 
         const {
@@ -93,10 +93,10 @@ export const createProduct = (req, res) =>
         const data = {
             name,
             description,
-            stock,
+            stock: parseInt(stock),
             brand: brand || undefined,
             categories: categories || undefined,
-            price,
+            price: parseInt(price),
             images: req.files.map((file) => file.filename),
         };
         const newProduct = new Product(data);

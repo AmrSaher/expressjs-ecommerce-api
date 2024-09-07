@@ -3,6 +3,7 @@ import { hashPassword, comparePassword } from "../Helpers/Bcrypt.mjs";
 import { generateJWTToken } from "../Helpers/JWT.mjs";
 import { User } from "../Models/User.mjs";
 import { Profile } from "../Models/Profile.mjs";
+import { Cart } from "../Models/Cart.mjs";
 
 export const register = async (req, res) => {
     const validationErrors = validationResult(req);
@@ -33,12 +34,17 @@ export const register = async (req, res) => {
     const newProfile = new Profile({
         user: newUser._id,
     });
+    const newCart = new Cart({
+        user: newUser._id,
+    });
     newUser.profile = newProfile._id;
+    newUser.cart = newCart._id;
 
     try {
         const savedUser = await newUser.save();
         const token = generateJWTToken(savedUser);
         await newProfile.save();
+        await newCart.save();
         res.status(201).json({ token });
     } catch (err) {
         console.log(err);
