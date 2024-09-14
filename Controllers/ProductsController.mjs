@@ -1,5 +1,6 @@
 import { validationResult, matchedData } from "express-validator";
 import { Product } from "../Models/Product.mjs";
+import { Category } from "../Models/Category.mjs";
 import upload from "../Middlewares/UploadMiddleware.mjs";
 import multer from "multer";
 
@@ -100,6 +101,16 @@ export const createProduct = (req, res) =>
             images: req.files.map((file) => file.filename),
         };
         const newProduct = new Product(data);
+
+        try {
+            for (const categoryId of categories) {
+                const category = await Category.findById(categoryId);
+                category.products.push(newProduct._id);
+                await category.save();
+            }
+        } catch (err) {
+            return res.sendStatus(400);
+        }
 
         try {
             const savedProduct = await newProduct.save();

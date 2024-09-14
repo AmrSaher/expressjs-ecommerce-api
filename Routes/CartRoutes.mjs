@@ -4,6 +4,7 @@ import passport from "passport";
 import * as CartController from "../Controllers/CartController.mjs";
 import AddProductToCartValidationSchema from "../Validation/AddProductToCartValidationSchema.mjs";
 import IDValidationSchema from "../Validation/IDValidationSchema.mjs";
+import CheckoutValidationSchema from "../Validation/CheckoutValidationSchema.mjs";
 
 const router = Router();
 
@@ -31,6 +32,11 @@ router.patch(
         .notEmpty()
         .withMessage("Must be not empty."),
     CartController.updateQuantity
+);
+router.post(
+    "/checkout",
+    checkSchema(CheckoutValidationSchema),
+    CartController.checkout
 );
 
 export default router;

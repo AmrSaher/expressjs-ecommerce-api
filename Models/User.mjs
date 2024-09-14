@@ -40,9 +40,16 @@ const UserSchema = new mongoose.Schema(
         ],
         cart: {
             type: mongoose.Schema.Types.ObjectId,
+            ref: "Cart",
             required: true,
             unique: true,
         },
+        orders: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Order",
+            },
+        ],
     },
     { timestamps: true }
 );

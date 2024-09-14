@@ -1,5 +1,6 @@
 import { matchedData, validationResult } from "express-validator";
 import { Address } from "../Models/Address.mjs";
+import { User } from "../Models/User.mjs";
 
 export const getAddresses = async (req, res) => {
     const addresses = await Address.find({ user: req.user._id });
@@ -29,7 +30,10 @@ export const createAddress = async (req, res) => {
     });
 
     try {
+        const user = await User.findById(req.user._id);
         const savedAddress = await newAddress.save();
+        user.addresses.push(savedAddress._id);
+        await user.save();
         res.status(200).json(savedAddress);
     } catch (err) {
         res.sendStatus(400);

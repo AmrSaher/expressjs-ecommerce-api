@@ -1,4 +1,4 @@
-import { matchedData, validationResult } from "express-validator";
+// import { matchedData, validationResult } from "express-validator";
 import { Profile } from "../Models/Profile.mjs";
 
 export const updateProfile = async (req, res) => {

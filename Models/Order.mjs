@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
-const CartSchema = new mongoose.Schema(
+const OrderSchema = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
-            unique: true,
+        },
+        address: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Address",
+            required: true,
         },
         products: [
             {
@@ -23,8 +27,20 @@ const CartSchema = new mongoose.Schema(
                 },
             },
         ],
+        status: {
+            type: mongoose.Schema.Types.String,
+            enum: [
+                "Pending",
+                "Processing",
+                "Shipped",
+                "Delivered",
+                "Canceled",
+                "Refunded",
+            ],
+            default: "Pending",
+        },
     },
     { timestamps: true }
 );
 
-export const Cart = mongoose.model("Cart", CartSchema);
+export const Order = mongoose.model("Order", OrderSchema);

@@ -1,5 +1,6 @@
 import { matchedData, validationResult } from "express-validator";
 import { Card } from "../Models/Card.mjs";
+import { User } from "../Models/User.mjs";
 
 export const getCards = async (req, res) => {
     const cards = await Card.find({ user: req.user._id });
@@ -18,7 +19,10 @@ export const createCard = async (req, res) => {
     });
 
     try {
+        const user = await User.findById(req.user._id);
         const savedCard = await newCard.save();
+        user.cards.push(savedCard._id);
+        await user.save();
         res.status(200).json(savedCard);
     } catch (err) {
         res.sendStatus(400);
